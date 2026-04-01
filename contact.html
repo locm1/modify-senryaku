@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>お問い合わせ（改善案モックアップ）</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-title"><a href="index.html">戦略倉庫 — 改善案モックアップ</a></div>
+    <nav class="header-nav">
+      <a href="index.html">TOP</a>
+      <a href="features.html">特徴</a>
+      <a href="flow.html">流れ</a>
+      <a href="works.html">実績</a>
+      <a href="usage-warehouse.html">用途</a>
+      <a href="hazardous.html">危険物</a>
+      <a href="faq.html">FAQ</a>
+      <a href="column.html">コラム</a>
+      <a href="catalog.html">カタログ</a>
+      <a href="contact.html" class="current">問い合わせ</a>
+      <a href="company.html">会社概要</a>
+      <a href="new-pages.html">新規ページ</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-id">
+  <h1>お問い合わせ（改善案）</h1>
+  <p>「ガイダンスページ → 目的別入口 → プログレッシブフォーム」の3段構成</p>
+</div>
+
+<div class="wrapper">
+
+  <!-- ===== ① ガイダンス ===== -->
+  <section>
+    <p class="section-label">SECTION 01</p>
+    <p class="section-title">まず、ご相談の目的をお選びください</p>
+
+    <div class="g3">
+      <div class="card" style="text-align:center;cursor:pointer;border:2px solid #9cc5e8">
+        <p style="font-size:2rem">📐</p>
+        <h3>概算を知りたい</h3>
+        <p style="font-size:.82rem">用途・面積を伝えるだけで最短翌営業日に概算をお伝えします</p>
+      </div>
+      <div class="card" style="text-align:center;cursor:pointer;border:2px solid #9cc5e8">
+        <p style="font-size:2rem">💬</p>
+        <h3>計画の相談をしたい</h3>
+        <p style="font-size:.82rem">構想段階・土地未定でもOK。建築のプロに無料で相談</p>
+      </div>
+      <div class="card" style="text-align:center;cursor:pointer;border:2px solid #9cc5e8">
+        <p style="font-size:2rem">📘</p>
+        <h3>資料を請求したい</h3>
+        <p style="font-size:.82rem">→ <a href="catalog.html">カタログDLページ</a>へ</p>
+      </div>
+    </div>
+
+    <div class="note">
+      改善前はいきなりフォームが表示されていた。<br>
+      改善案では<strong>まず「何がしたいか」をガイダンス</strong>で選ばせる。これにより、ユーザーが「自分のやりたいことに対応してくれる」と安心でき、フォーム到達率が上がる。<br>
+      また資料請求はカタログDLページに振り分け、問い合わせフォームへの流入を「相談意向あり」のユーザーに絞る。
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== ② プログレッシブフォーム ===== -->
+  <section>
+    <p class="section-label">SECTION 02</p>
+    <p class="section-title">お問い合わせフォーム（プログレッシブ形式）</p>
+
+    <div class="card" style="max-width:600px;margin:0 auto">
+      <p style="font-size:.85rem;color:#5a6a7a;margin-bottom:16px">
+        ※ 以下のフォームに入力いただくと、より的確なご案内が可能です
+      </p>
+
+      <!-- STEP 1: 基本情報 -->
+      <p style="font-weight:700;color:#0b3d6b;margin-bottom:8px">STEP 1 — 基本情報</p>
+      <div class="wire" style="min-height:30px;margin-bottom:8px"><small>会社名 [必須]</small></div>
+      <div class="wire" style="min-height:30px;margin-bottom:8px"><small>ご担当者名 [必須]</small></div>
+      <div class="wire" style="min-height:30px;margin-bottom:8px"><small>メールアドレス [必須]</small></div>
+      <div class="wire" style="min-height:30px;margin-bottom:16px"><small>電話番号 [必須]</small></div>
+
+      <!-- STEP 2: 計画情報（プログレッシブ） -->
+      <p style="font-weight:700;color:#0b3d6b;margin-bottom:8px">STEP 2 — 計画情報（任意・分かる範囲で）</p>
+      <div class="wire" style="min-height:30px;margin-bottom:8px">
+        <small>用途 [選択]：倉庫 / 工場 / 店舗 / 事務所 / 危険物 / その他</small>
+      </div>
+      <div class="wire" style="min-height:30px;margin-bottom:8px">
+        <small>希望延床面積 [選択]：150坪〜 / 300坪〜 / 500坪〜 / 未定</small>
+      </div>
+      <div class="wire" style="min-height:30px;margin-bottom:8px">
+        <small>建設予定地の有無 [選択]：土地あり / 土地探し中 / 未定</small>
+      </div>
+      <div class="wire" style="min-height:30px;margin-bottom:8px">
+        <small>希望時期 [選択]：半年以内 / 1年以内 / 1年以上先 / 未定</small>
+      </div>
+      <div class="wire" style="min-height:30px;margin-bottom:8px">
+        <small>危険物の有無 [選択]：あり / なし / 分からない</small>
+      </div>
+      <div class="wire" style="min-height:30px;margin-bottom:8px">
+        <small>概算ご予算 [選択]：3,000万円〜 / 5,000万円〜 / 1億円〜 / 未定</small>
+      </div>
+      <div class="wire" style="min-height:30px;margin-bottom:16px">
+        <small>種別 [選択]：新築 / 建替え / 増築</small>
+      </div>
+
+      <!-- STEP 3: 自由記述 -->
+      <p style="font-weight:700;color:#0b3d6b;margin-bottom:8px">STEP 3 — ご相談内容</p>
+      <div class="wire" style="min-height:80px;margin-bottom:16px">
+        <small>自由記述欄（現在お困りのこと、確認したいこと等）</small>
+      </div>
+
+      <div class="wire cta">送信する</div>
+    </div>
+
+    <div class="note">
+      フォームをSTEP形式にし、STEP2は<strong>全項目「任意」のプログレッシブフィールド</strong>にする。<br>
+      「分かる範囲でOK」というメッセージで記入ハードルを下げつつ、記入してくれた場合は初回ヒアリングが効率化する。<br>
+      <br>
+      追加したフィールド（改善前にはなかったもの）：<br>
+      ・<strong>用途</strong>：概算精度が上がる<br>
+      ・<strong>延床面積</strong>：対象案件かの判断材料<br>
+      ・<strong>土地の有無</strong>：初回対応が変わる<br>
+      ・<strong>希望時期</strong>：優先度の判断<br>
+      ・<strong>危険物有無</strong>：対応フローが変わる<br>
+      ・<strong>概算予算</strong>：提案の方向性が変わる<br>
+      ・<strong>新築/建替え/増築</strong>：調査項目が変わる
+    </div>
+  </section>
+
+  <!-- ===== 電話・アクセス ===== -->
+  <section>
+    <p class="section-label">CONTACT INFO</p>
+    <p class="section-title">電話でのご相談</p>
+
+    <div class="card" style="text-align:center">
+      <p style="font-size:1.3rem;font-weight:700;color:#0b3d6b">📞 0120-XXX-XXX</p>
+      <p style="font-size:.82rem;color:#5a6a7a">受付時間：平日 9:00〜18:00（土日祝除く）</p>
+      <p style="font-size:.82rem;color:#5a6a7a;margin-top:4px">「ホームページを見た」とお伝えください</p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  改善案モックアップ — 戦略倉庫 | <a href="sitemap.html" style="color:rgba(255,255,255,.8)">全ページ一覧</a>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>施工実績一覧（改善案モックアップ）</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-title"><a href="index.html">戦略倉庫 — 改善案モックアップ</a></div>
+    <nav class="header-nav">
+      <a href="index.html">TOP</a>
+      <a href="features.html">特徴</a>
+      <a href="flow.html">流れ</a>
+      <a href="works.html" class="current">実績</a>
+      <a href="usage-warehouse.html">用途</a>
+      <a href="hazardous.html">危険物</a>
+      <a href="faq.html">FAQ</a>
+      <a href="column.html">コラム</a>
+      <a href="catalog.html">カタログ</a>
+      <a href="contact.html">問い合わせ</a>
+      <a href="company.html">会社概要</a>
+      <a href="new-pages.html">新規ページ</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-id">
+  <h1>施工実績一覧（改善案）</h1>
+  <p>カード型 + 絞り込みフィルターで「自社に近い事例」を素早く見つけられる一覧</p>
+</div>
+
+<div class="wrapper">
+
+  <!-- ===== フィルター ===== -->
+  <section>
+    <p class="section-label">FILTER</p>
+    <p class="section-title">絞り込みフィルター</p>
+
+    <div class="card" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+      <div>
+        <small style="font-weight:600;color:#0b3d6b">用途</small> <span class="tag tag-gray" style="font-size:.65rem">既存</span><br>
+        <span class="tag tag-blue">すべて</span>
+        <span class="tag tag-gray">倉庫</span>
+        <span class="tag tag-gray">工場</span>
+        <span class="tag tag-gray">店舗</span>
+        <span class="tag tag-gray">事務所</span>
+        <span class="tag tag-gray">危険物</span>
+      </div>
+      <div>
+        <small style="font-weight:600;color:#0b3d6b">エリア</small> <span class="tag tag-gray" style="font-size:.65rem">既存</span><br>
+        <span class="tag tag-gray">北海道</span>
+        <span class="tag tag-gray">東北</span>
+        <span class="tag tag-gray">関東</span>
+      </div>
+      <div>
+        <small style="font-weight:600;color:#0b3d6b">種別</small> <span class="tag tag-gray" style="font-size:.65rem">既存</span><br>
+        <span class="tag tag-gray">施工</span>
+        <span class="tag tag-gray">設計/施工</span>
+        <span class="tag tag-gray">提案</span>
+      </div>
+      <div style="border-left:3px solid #e8833a;padding-left:10px">
+        <small style="font-weight:600;color:#e8833a">面積</small> <span class="tag tag-orange" style="font-size:.65rem">NEW</span><br>
+        <span class="tag tag-gray">150坪〜</span>
+        <span class="tag tag-gray">300坪〜</span>
+        <span class="tag tag-gray">500坪〜</span>
+      </div>
+    </div>
+
+    <div class="note">
+      現行サイトには既にエリア・用途・種別での絞り込み機能が存在する（既存機能）。<br>
+      改善案では既存フィルターに加え、<strong>「面積帯」フィルター（150坪〜 / 300坪〜 / 500坪〜）を新設</strong>する。ターゲットが150坪以上に絞られているため、面積が判断基準として非常に重要であり、この軸での絞り込みがあることで<strong>「自社と近い規模の事例」</strong>に最短で辿り着ける。
+    </div>
+  </section>
+
+  <!-- ===== カードグリッド ===== -->
+  <section>
+    <p class="section-label">RESULTS</p>
+    <p class="section-title">実績カード一覧</p>
+
+    <div class="g3">
+      <!-- Card 1 -->
+      <a href="works-detail.html" style="text-decoration:none;color:inherit">
+        <div class="card" style="cursor:pointer">
+          <div class="wire" style="min-height:120px;margin-bottom:12px">
+            <small>施工写真サムネイル</small>
+          </div>
+          <h3>○○倉庫 新築工事</h3>
+          <p>
+            <span class="tag tag-blue">倉庫</span>
+            <span class="tag tag-green">250坪</span>
+            <span class="tag tag-orange">埼玉</span>
+          </p>
+          <p style="font-size:.82rem;color:#5a6a7a;margin-top:6px">工期5ヶ月 / 床荷重3t/㎡ / 大型車対応</p>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
+      <div class="card">
+        <div class="wire" style="min-height:120px;margin-bottom:12px">
+          <small>施工写真サムネイル</small>
+        </div>
+        <h3>△△工場 新築工事</h3>
+        <p>
+          <span class="tag tag-blue">工場</span>
+          <span class="tag tag-green">400坪</span>
+          <span class="tag tag-orange">宮城</span>
+        </p>
+        <p style="font-size:.82rem;color:#5a6a7a;margin-top:6px">工期6ヶ月 / クレーン付 / 断熱仕様</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card">
+        <div class="wire" style="min-height:120px;margin-bottom:12px">
+          <small>施工写真サムネイル</small>
+        </div>
+        <h3>□□危険物倉庫</h3>
+        <p>
+          <span class="tag tag-blue">危険物</span>
+          <span class="tag tag-green">180坪</span>
+          <span class="tag tag-orange">北海道</span>
+        </p>
+        <p style="font-size:.82rem;color:#5a6a7a;margin-top:6px">工期4ヶ月 / 消防法対応 / 防爆仕様</p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card">
+        <div class="wire" style="min-height:120px;margin-bottom:12px">
+          <small>施工写真サムネイル</small>
+        </div>
+        <h3>◎◎物流倉庫 増築</h3>
+        <p>
+          <span class="tag tag-blue">倉庫</span>
+          <span class="tag tag-green">350坪</span>
+          <span class="tag tag-orange">埼玉</span>
+        </p>
+        <p style="font-size:.82rem;color:#5a6a7a;margin-top:6px">増築 / 既存棟との連結 / 5ヶ月</p>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="card">
+        <div class="wire" style="min-height:120px;margin-bottom:12px">
+          <small>施工写真サムネイル</small>
+        </div>
+        <h3>▽▽食品加工工場</h3>
+        <p>
+          <span class="tag tag-blue">工場</span>
+          <span class="tag tag-green">320坪</span>
+          <span class="tag tag-orange">北海道</span>
+        </p>
+        <p style="font-size:.82rem;color:#5a6a7a;margin-top:6px">工期4ヶ月 / 温度管理 / 衛生仕様</p>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="card">
+        <div class="wire" style="min-height:120px;margin-bottom:12px">
+          <small>施工写真サムネイル</small>
+        </div>
+        <h3>☆☆大型店舗</h3>
+        <p>
+          <span class="tag tag-blue">店舗</span>
+          <span class="tag tag-green">500坪</span>
+          <span class="tag tag-orange">関東</span>
+        </p>
+        <p style="font-size:.82rem;color:#5a6a7a;margin-top:6px">工期5ヶ月 / 外装デザイン対応</p>
+      </div>
+    </div>
+
+    <div class="note">
+      現行サイトのカードには所在地・工期・用途が表示されている（既存機能）。<br>
+      改善案では既存情報に加え、<strong>面積（坪数）・特徴タグ（危険物対応、クレーン付等）</strong>をカード上に追加表示する。<br>
+      一覧段階で「自社の条件に近いか？」の判断材料をより多く提供し、<strong>詳細を見るかどうかの意思決定を効率化</strong>する。
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section style="text-align:center">
+    <div class="wire cta" style="max-width:480px;margin:0 auto">
+      同じような条件で相談する
+      <small style="font-weight:400;opacity:.8">面積・用途を伝えるだけでOK</small>
+    </div>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  改善案モックアップ — 戦略倉庫 | <a href="sitemap.html" style="color:rgba(255,255,255,.8)">全ページ一覧</a>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>
