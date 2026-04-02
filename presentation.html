@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>戦略倉庫 サイト改善提案</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP","Meiryo",sans-serif;color:#23272f;background:#1a1e2e}
+a{color:#5ba4d9}
+
+/* ===== Slide System ===== */
+.slide{
+  display:none;flex-direction:column;justify-content:center;align-items:center;
+  width:100vw;height:100vh;padding:48px 64px;
+  background:#fff;position:absolute;top:0;left:0;
+  overflow-y:auto;
+}
+.slide.active{display:flex}
+.slide-inner{max-width:960px;width:100%}
+
+/* ===== Typography ===== */
+h1{font-size:2.4rem;font-weight:800;color:#0b3d6b;line-height:1.3;margin-bottom:16px}
+h2{font-size:1.8rem;font-weight:700;color:#0b3d6b;line-height:1.4;margin-bottom:20px}
+h3{font-size:1.15rem;font-weight:700;color:#1a3a5c;margin-bottom:8px}
+p{line-height:1.8;font-size:1rem}
+.subtitle{font-size:1.1rem;color:#5a6a7a;margin-bottom:24px}
+.label{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.12em;color:#8a95a5;margin-bottom:12px;text-transform:uppercase}
+.highlight{color:#e8833a;font-weight:700}
+.num{font-size:2rem;font-weight:800;color:#e8833a;margin-right:8px}
+
+/* ===== Grid ===== */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:16px 0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin:16px 0}
+
+/* ===== Cards ===== */
+.card{background:#f7f9fc;border:1px solid #dde3ec;border-radius:10px;padding:20px 24px}
+.card-accent{background:#eaf4fb;border:2px solid #9cc5e8;border-radius:10px;padding:20px 24px}
+.card-problem{background:#fff5f5;border:1px solid #f5c6c6;border-radius:10px;padding:20px 24px}
+.card-solution{background:#edfbf3;border:1px solid #a8e6c3;border-radius:10px;padding:20px 24px}
+.card-orange{background:#fff8f0;border:2px solid #e8833a;border-radius:10px;padding:20px 24px}
+
+/* ===== Arrow ===== */
+.arrow{text-align:center;font-size:1.6rem;color:#9cc5e8;margin:8px 0}
+.arrow-right{display:inline-block;font-size:1.4rem;color:#9cc5e8;margin:0 8px}
+
+/* ===== Journey nodes ===== */
+.journey-row{display:flex;align-items:stretch;gap:12px;margin:12px 0;flex-wrap:wrap;justify-content:center}
+.j-node{flex:1;min-width:120px;max-width:180px;border-radius:8px;padding:12px 10px;text-align:center;font-size:.78rem;line-height:1.5;border:1px solid #dde3ec;background:#f7f9fc}
+.j-node strong{display:block;font-size:.85rem;margin-bottom:4px;color:#0b3d6b}
+.j-node.bad{background:#fff5f5;border-color:#f5c6c6}
+.j-node.bad strong{color:#c0392b}
+.j-node.good{background:#edfbf3;border-color:#a8e6c3}
+.j-node.good strong{color:#217a4b}
+.j-arr{display:flex;align-items:center;color:#bcc;font-size:1.2rem;flex-shrink:0}
+
+/* ===== Route cards ===== */
+.route{border-radius:10px;padding:20px 24px;text-align:center}
+.route h3{margin-bottom:6px}
+.route p{font-size:.85rem;color:#5a6a7a}
+.route-a{background:#eaf4fb;border:2px solid #5ba4d9}
+.route-b{background:#edfbf3;border:2px solid #5ec28b}
+.route-c{background:#fff8f0;border:2px solid #e8833a}
+
+/* ===== Table ===== */
+.s-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:12px 0}
+.s-table th{background:#0b3d6b;color:#fff;padding:10px 12px;text-align:left;font-weight:600}
+.s-table td{padding:10px 12px;border-bottom:1px solid #e5e5e5}
+.s-table tr:nth-child(even) td{background:#f7f9fc}
+
+/* ===== Tag ===== */
+.tag{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 10px;border-radius:20px;margin:2px}
+.tag-blue{background:#dbeafe;color:#1e5a8d}
+.tag-orange{background:#ffe4cc;color:#a14e00}
+.tag-green{background:#d4edda;color:#1b6d35}
+
+/* ===== Navigation ===== */
+.nav-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(26,30,46,.95);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 32px;color:#fff;
+}
+.nav-bar button{
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  color:#fff;padding:8px 20px;border-radius:6px;font-size:.85rem;cursor:pointer;
+  transition:background .2s;
+}
+.nav-bar button:hover{background:rgba(255,255,255,.25)}
+.nav-bar button:disabled{opacity:.3;cursor:default}
+.nav-bar .page-indicator{font-size:.8rem;opacity:.7}
+.progress{position:fixed;top:0;left:0;height:3px;background:#e8833a;z-index:101;transition:width .3s}
+
+/* ===== Cover ===== */
+.cover{background:linear-gradient(135deg,#0b3d6b 0%,#1a6fb5 100%);color:#fff}
+.cover h1{color:#fff;font-size:2.8rem}
+.cover .subtitle{color:rgba(255,255,255,.75)}
+.cover .meta{font-size:.85rem;color:rgba(255,255,255,.5);margin-top:32px}
+
+/* ===== End slide ===== */
+.end{background:linear-gradient(135deg,#0b3d6b 0%,#1a6fb5 100%);color:#fff;text-align:center}
+.end h2{color:#fff;font-size:2rem}
+.end p{color:rgba(255,255,255,.7)}
+.end a{color:#ffd966;font-weight:600}
+
+/* ===== Divider ===== */
+.sep{width:60px;height:3px;background:#e8833a;border-radius:2px;margin:16px 0}
+
+/* ===== Before/After label ===== */
+.ba-label{display:inline-block;font-weight:700;font-size:.75rem;letter-spacing:.08em;padding:3px 12px;border-radius:4px;margin-bottom:10px}
+.ba-before{background:#f5c6c6;color:#8b1a1a}
+.ba-after{background:#a8e6c3;color:#1b5e37}
+
+/* ===== Checklist ===== */
+ul.check{list-style:none;padding:0}
+ul.check li{padding:4px 0 4px 24px;position:relative;font-size:.9rem}
+ul.check li::before{content:"✓";position:absolute;left:0;color:#217a4b;font-weight:700}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .slide{padding:32px 24px}
+  h1{font-size:1.8rem}
+  h2{font-size:1.4rem}
+  .g2,.g3{grid-template-columns:1fr}
+  .journey-row{flex-direction:column;align-items:center}
+  .j-arr{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- ========================================== -->
+<!-- SLIDE 1: 表紙 -->
+<!-- ========================================== -->
+<div class="slide cover active" data-slide="1">
+  <div class="slide-inner">
+    <p class="label" style="color:rgba(255,255,255,.5)">WEB SITE IMPROVEMENT PROPOSAL</p>
+    <h1>戦略倉庫<br>サイト改善提案</h1>
+    <div class="sep" style="background:rgba(255,255,255,.4)"></div>
+    <p class="subtitle">訪問者を「迷わせない」サイト設計で、CVRを最大化する</p>
+    <p class="meta">2026年4月</p>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SLIDE 2: 現状の課題 -->
+<!-- ========================================== -->
+<div class="slide" data-slide="2">
+  <div class="slide-inner">
+    <p class="label">PROBLEM</p>
+    <h2>現行サイトの3つの課題</h2>
+    <div class="sep"></div>
+
+    <div class="g3" style="margin-top:24px">
+      <div class="card-problem">
+        <p style="font-size:2rem;text-align:center;margin-bottom:8px">😶</p>
+        <h3>1. ターゲットが不明確</h3>
+        <p style="font-size:.85rem;color:#5a6a7a">
+          TOPページで「誰のためのサービスか」が伝わらず、訪問者が<strong>自分ごと化できない</strong>
+        </p>
+      </div>
+      <div class="card-problem">
+        <p style="font-size:2rem;text-align:center;margin-bottom:8px">🔄</p>
+        <h3>2. 次の行動が分からない</h3>
+        <p style="font-size:.85rem;color:#5a6a7a">
+          ナビが網羅的すぎて<strong>どこから見ればいいか迷う</strong>。実績の絞り込みもできない
+        </p>
+      </div>
+      <div class="card-problem">
+        <p style="font-size:2rem;text-align:center;margin-bottom:8px">🚪</p>
+        <h3>3. CTAハードルが高い</h3>
+        <p style="font-size:.85rem;color:#5a6a7a">
+          「お問い合わせ」しか選択肢がなく、<strong>構想段階の訪問者は離脱</strong>してしまう
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SLIDE 3: 改善の基本方針 -->
+<!-- ========================================== -->
+<div class="slide" data-slide="3">
+  <div class="slide-inner">
+    <p class="label">STRATEGY</p>
+    <h2>改善の基本方針</h2>
+    <div class="sep"></div>
+
+    <div class="card-accent" style="text-align:center;margin:24px 0">
+      <p style="font-size:1.6rem;font-weight:800;color:#0b3d6b">迷わせない。3クリックでCVへ導く。</p>
+    </div>
+
+    <div class="g3" style="margin-top:20px">
+      <div class="card">
+        <h3><span class="num">1</span>ターゲット明示</h3>
+        <p style="font-size:.85rem;color:#5a6a7a">
+          ファーストビューで<br>「150坪以上の倉庫・工場建築を<br>検討中の法人向け」と即座に伝える
+        </p>
+      </div>
+      <div class="card">
+        <h3><span class="num">2</span>判断→納得→行動</h3>
+        <p style="font-size:.85rem;color:#5a6a7a">
+          全ページ共通で<br>「自分に合うか判断 → 事例で納得<br>→ 低ハードルで行動」の流れを設計
+        </p>
+      </div>
+      <div class="card">
+        <h3><span class="num">3</span>低ハードルCTA</h3>
+        <p style="font-size:.85rem;color:#5a6a7a">
+          「お問い合わせ」→<br>「概算を相談する（無料）」に変更<br>構想段階でもアクションできる
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SLIDE 4: ジャーニーマップ Before -->
+<!-- ========================================== -->
+<div class="slide" data-slide="4">
+  <div class="slide-inner">
+    <p class="label">JOURNEY MAP</p>
+    <h2>訪問者の体験 — 改善前</h2>
+    <div class="sep"></div>
+
+    <p class="ba-label ba-before">BEFORE</p>
+
+    <div class="journey-row">
+      <div class="j-node">
+        <strong>流入</strong>
+        検索 or 広告で<br>サイトに到着
+      </div>
+      <div class="j-arr">→</div>
+      <div class="j-node">
+        <strong>着地</strong>
+        「戦略倉庫…？」<br>自分向けか分からない
+      </div>
+      <div class="j-arr">→</div>
+      <div class="j-node">
+        <strong>迷走</strong>
+        ナビが多すぎて<br>どこから見れば…
+      </div>
+      <div class="j-arr">→</div>
+      <div class="j-node">
+        <strong>情報不足</strong>
+        特徴は分かったが<br>費用感が掴めない
+      </div>
+      <div class="j-arr">→</div>
+      <div class="j-node bad">
+        <strong>離脱</strong>
+        「お問い合わせ」は重い…<br>まだ構想段階だし…
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:24px;font-size:.85rem;text-align:center;color:#8b1a1a;background:#fff5f5;border-color:#f5c6c6">
+      <strong>問題：</strong>ターゲット不明確 → ナビで迷う → 実績の絞り込み不可 → CTAが「お問い合わせ」のみ → <strong>構想段階の訪問者は離脱</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SLIDE 5: ジャーニーマップ After -->
+<!-- ========================================== -->
+<div class="slide" data-slide="5">
+  <div class="slide-inner">
+    <p class="label">JOURNEY MAP</p>
+    <h2>訪問者の体験 — 改善後</h2>
+    <div class="sep"></div>
+
+    <p class="ba-label ba-after">AFTER</p>
+
+    <!-- 共通部分 -->
+    <div class="journey-row">
+      <div class="j-node good">
+        <strong>流入</strong>
+        検索 / 広告 / コラム
+      </div>
+      <div class="j-arr">→</div>
+      <div class="j-node good">
+        <strong>即座に認識</strong>
+        「150坪以上の倉庫・工場」<br>= 自分のためのサイト
+      </div>
+      <div class="j-arr">→</div>
+      <div class="j-node good" style="border-color:#5ba4d9;background:#eaf4fb">
+        <strong>3入口ナビで選択</strong>
+        用途別 / 実績 / 概算相談
+      </div>
+    </div>
+
+    <div class="arrow">▼ 訪問者のフェーズに応じて3ルートに分岐</div>
+
+    <!-- 3ルート -->
+    <div class="g3">
+      <div class="route route-a">
+        <h3>A. 用途が決まっている</h3>
+        <p>用途別ページ → 同規模の実績で納得 → CV</p>
+      </div>
+      <div class="route route-b">
+        <h3>B. 事例を参考にしたい</h3>
+        <p>実績をフィルター → 詳細で比較 → CV</p>
+      </div>
+      <div class="route route-c">
+        <h3>C. まだ構想段階</h3>
+        <p>「概算相談（無料）」→ 2分で完了 → CV</p>
+      </div>
+    </div>
+
+    <div class="card-solution" style="text-align:center;margin-top:12px;font-size:.85rem">
+      <strong>どのフェーズの訪問者も、最短3クリックでCVに到達</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SLIDE 6: TOPページ 3入口ナビ -->
+<!-- ========================================== -->
+<div class="slide" data-slide="6">
+  <div class="slide-inner">
+    <p class="label">TOP PAGE — KEY CHANGE</p>
+    <h2>TOPページの3入口ナビゲーション</h2>
+    <div class="sep"></div>
+
+    <p style="font-size:.9rem;color:#5a6a7a;margin-bottom:20px">
+      訪問者の行動パターンを3つに集約し、ワンクリックで次のアクションへ導く
+    </p>
+
+    <div class="g3">
+      <div class="card-orange" style="text-align:center">
+        <p style="font-size:1.5rem;margin-bottom:8px">🏭</p>
+        <h3>用途別に見る</h3>
+        <p style="font-size:.82rem;color:#5a6a7a">倉庫 / 工場 / 店舗 / 事務所 / 危険物</p>
+        <div class="sep" style="margin:12px auto"></div>
+        <p style="font-size:.78rem;color:#a14e00">用途が決まっている層向け</p>
+      </div>
+      <div class="card-orange" style="text-align:center">
+        <p style="font-size:1.5rem;margin-bottom:8px">📸</p>
+        <h3>施工事例を見る</h3>
+        <p style="font-size:.82rem;color:#5a6a7a">面積・地域・用途で絞り込み</p>
+        <div class="sep" style="margin:12px auto"></div>
+        <p style="font-size:.78rem;color:#a14e00">事例を参考にしたい層向け</p>
+      </div>
+      <div class="card-orange" style="text-align:center">
+        <p style="font-size:1.5rem;margin-bottom:8px">💬</p>
+        <h3>計画・概算を相談する</h3>
+        <p style="font-size:.82rem;color:#5a6a7a">土地未定でもOK / 概算案内</p>
+        <div class="sep" style="margin:12px auto"></div>
+        <p style="font-size:.78rem;color:#a14e00">構想段階の層向け</p>
+      </div>
+    </div>
+
+    <div class="g3" style="margin-top:12px;font-size:.82rem;text-align:center;color:#5a6a7a">
+      <p>＋ 地域別に探す</p>
+      <p>＋ 面積別に探す</p>
+      <p>＋ 建替え・増築</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SLIDE 7: CV導線の改善 -->
+<!-- ========================================== -->
+<div class="slide" data-slide="7">
+  <div class="slide-inner">
+    <p class="label">CONVERSION DESIGN</p>
+    <h2>CV導線の改善</h2>
+    <div class="sep"></div>
+
+    <div class="g2" style="margin-top:20px">
+      <div>
+        <p class="ba-label ba-before">BEFORE</p>
+        <div class="card-problem">
+          <h3>「お問い合わせ」のみ</h3>
+          <ul style="font-size:.85rem;color:#5a6a7a;padding-left:20px;margin-top:8px">
+            <li>フォームが重い（会社名・電話番号必須）</li>
+            <li>構想段階では心理的ハードルが高い</li>
+            <li>「営業されそう」という懸念</li>
+            <li>CTAが全ページ同じ文言</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <p class="ba-label ba-after">AFTER</p>
+        <div class="card-solution">
+          <h3>3段階の選択肢</h3>
+          <table class="s-table" style="margin-top:8px">
+            <tr><td><strong>概算相談</strong><br><span style="font-size:.75rem;color:#5a6a7a">（新設・低ハードル）</span></td><td style="font-size:.82rem">用途・面積を選ぶだけ<br>2分で完了</td></tr>
+            <tr><td><strong>カタログDL</strong><br><span style="font-size:.75rem;color:#5a6a7a">（既存・改善）</span></td><td style="font-size:.82rem">目的別に複数資料化<br>DL後ステップメール</td></tr>
+            <tr><td><strong>お問い合わせ</strong><br><span style="font-size:.75rem;color:#5a6a7a">（既存）</span></td><td style="font-size:.82rem">具体的な相談向け<br>ガイダンスページ化</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-accent" style="margin-top:16px;text-align:center;font-size:.9rem">
+      全ページ共通CTA文言：<strong style="color:#0b3d6b">「まずは概算を相談する（無料）」</strong> — ユーザーの言葉で行動を促す
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SLIDE 8: 新設ページの狙い -->
+<!-- ========================================== -->
+<div class="slide" data-slide="8">
+  <div class="slide-inner">
+    <p class="label">NEW PAGES</p>
+    <h2>新設ページの狙い</h2>
+    <div class="sep"></div>
+    <p style="font-size:.9rem;color:#5a6a7a;margin-bottom:20px">検索流入の受け皿を増やし、「自分ごと化」を促進する</p>
+
+    <div class="g2">
+      <div class="card">
+        <h3>🗺️ 地域別ページ <span class="tag tag-orange">NEW × 4</span></h3>
+        <p style="font-size:.85rem;color:#5a6a7a;margin-top:6px">
+          札幌・苫小牧・宮城・埼玉の4エリア。<br>
+          各エリアの施工実績・対応体制を掲載。<br>
+          <strong>「倉庫 建築 北海道」等のSEOキーワードの受け皿</strong>に。<br>
+          会社概要の営業所カードからも直接リンク。
+        </p>
+      </div>
+      <div class="card">
+        <h3>📐 面積別ページ <span class="tag tag-orange">NEW × 2</span></h3>
+        <p style="font-size:.85rem;color:#5a6a7a;margin-top:6px">
+          150坪以上・300坪以上の2区分。<br>
+          面積帯ごとの特徴・コスト目安・事例を提示。<br>
+          <strong>「自社の規模に近い情報がある」と安心</strong>させる。<br>
+          施工実績フィルターからもリンク。
+        </p>
+      </div>
+      <div class="card">
+        <h3>🔧 建替え・増築ページ <span class="tag tag-orange">NEW</span></h3>
+        <p style="font-size:.85rem;color:#5a6a7a;margin-top:6px">
+          建替え判断チェックリスト・操業中施工フロー・増築パターンを掲載。<br>
+          <strong>新築だけでなく既存施設オーナーも取り込む</strong>。
+        </p>
+      </div>
+      <div class="card">
+        <h3>📝 概算相談 + サンクスページ <span class="tag tag-orange">NEW</span></h3>
+        <p style="font-size:.85rem;color:#5a6a7a;margin-top:6px">
+          概算特化のLP。「土地未定OK・無料」を強調。<br>
+          サンクスページで回遊促進 + GA計測ポイント設置。<br>
+          <strong>構想段階の訪問者をリード化</strong>する仕組み。
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SLIDE 9: コラムSEO導線 -->
+<!-- ========================================== -->
+<div class="slide" data-slide="9">
+  <div class="slide-inner">
+    <p class="label">SEO CONTENT STRATEGY</p>
+    <h2>コラム記事 → CVの導線設計</h2>
+    <div class="sep"></div>
+
+    <p style="font-size:.9rem;color:#5a6a7a;margin-bottom:20px">
+      既存のコラム資産を活かし、情報収集層をCVまで導く
+    </p>
+
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;margin:20px 0">
+      <div class="j-node good" style="max-width:160px">
+        <strong>検索流入</strong>
+        「倉庫 坪単価」<br>「危険物倉庫 申請」
+      </div>
+      <div class="j-arr">→</div>
+      <div class="j-node" style="max-width:160px">
+        <strong>コラム記事</strong>
+        専門情報で<br>信頼感を獲得
+      </div>
+      <div class="j-arr">→</div>
+      <div class="j-node" style="max-width:160px;border-color:#5ba4d9;background:#eaf4fb">
+        <strong>記事末リンク</strong>
+        関連実績 / 用途別<br>/ 地域別ページへ
+      </div>
+      <div class="j-arr">→</div>
+      <div class="j-node good" style="max-width:160px">
+        <strong>サービス理解</strong>
+        戦略倉庫の<br>実力を把握
+      </div>
+      <div class="j-arr">→</div>
+      <div class="j-node good" style="max-width:160px;background:#fff8f0;border-color:#e8833a">
+        <strong>CV</strong>
+        概算相談 or<br>カタログDL
+      </div>
+    </div>
+
+    <div class="g2" style="margin-top:20px">
+      <div class="card-problem" style="text-align:center">
+        <p class="ba-label ba-before">BEFORE</p>
+        <p style="font-size:.85rem">コラムは<strong>読み切りで終了</strong><br>サイト内回遊につながらない</p>
+      </div>
+      <div class="card-solution" style="text-align:center">
+        <p class="ba-label ba-after">AFTER</p>
+        <p style="font-size:.85rem">記事末に<strong>関連実績・関連ページ・CTA</strong>を配置<br>情報収集層 → サービス理解 → CV</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SLIDE 10: まとめ -->
+<!-- ========================================== -->
+<div class="slide" data-slide="10">
+  <div class="slide-inner">
+    <p class="label">SUMMARY</p>
+    <h2>改善の全体像</h2>
+    <div class="sep"></div>
+
+    <table class="s-table" style="margin-top:20px">
+      <thead>
+        <tr><th style="width:30%">課題</th><th style="width:35%">改善施策</th><th style="width:35%">期待効果</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ターゲットが不明確</td>
+          <td>FV で「150坪以上の倉庫・工場建築」を明示</td>
+          <td>直帰率の低下</td>
+        </tr>
+        <tr>
+          <td>次の行動が分からない</td>
+          <td>3入口ナビ + 地域/面積/用途フィルター</td>
+          <td>回遊率・ページ/セッション向上</td>
+        </tr>
+        <tr>
+          <td>CTAハードルが高い</td>
+          <td>概算相談ページ新設 + 文言最適化</td>
+          <td>CVR向上（構想段階層の取り込み）</td>
+        </tr>
+        <tr>
+          <td>コラムが回遊につながらない</td>
+          <td>記事末に関連実績・CTA配置</td>
+          <td>SEO流入からのCV導線確立</td>
+        </tr>
+        <tr>
+          <td>地域・面積で自分ごと化できない</td>
+          <td>地域別4P + 面積別2P + 建替え1P 新設</td>
+          <td>ロングテールSEO + 自分ごと化促進</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SLIDE 11: エンド -->
+<!-- ========================================== -->
+<div class="slide end" data-slide="11">
+  <div class="slide-inner" style="text-align:center">
+    <h2>各ページの詳細はモックアップでご確認ください</h2>
+    <div class="sep" style="margin:20px auto;background:rgba(255,255,255,.4)"></div>
+    <p style="margin-bottom:24px">全ページの構成・設計意図・改善ポイントを<br>ワイヤーフレーム＋注釈付きで確認できます</p>
+    <p><a href="index.html" style="font-size:1.1rem">モックアップ TOP →</a></p>
+    <p style="margin-top:8px"><a href="sitemap.html" style="font-size:.9rem">全ページ一覧（サイトマップ） →</a></p>
+  </div>
+</div>
+
+<!-- ===== Navigation Bar ===== -->
+<nav class="nav-bar">
+  <button id="prevBtn" onclick="navigate(-1)">← 前へ</button>
+  <span class="page-indicator" id="pageIndicator">1 / 11</span>
+  <button id="nextBtn" onclick="navigate(1)">次へ →</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+function showSlide(i) {
+  slides.forEach(s => s.classList.remove('active'));
+  slides[i].classList.add('active');
+  current = i;
+  document.getElementById('pageIndicator').textContent = (i + 1) + ' / ' + total;
+  document.getElementById('prevBtn').disabled = i === 0;
+  document.getElementById('nextBtn').disabled = i === total - 1;
+  document.getElementById('progress').style.width = ((i + 1) / total * 100) + '%';
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next >= 0 && next < total) showSlide(next);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); navigate(1); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); navigate(-1); }
+  if (e.key === 'Home') { e.preventDefault(); showSlide(0); }
+  if (e.key === 'End') { e.preventDefault(); showSlide(total - 1); }
+});
+
+showSlide(0);
+</script>
+
+</body>
+</html>
